@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
   tls: { rejectUnauthorized: false },
 });
 
-const sendPasswordResetEmail = async (email, newPassword) => {
+const sendPasswordResetEmail = async (email, newPassword, username) => {
   try {
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -19,10 +19,10 @@ const sendPasswordResetEmail = async (email, newPassword) => {
       subject: "Thông báo đặt lại mật khẩu",
       html: `
         <h1>Thông báo đặt lại mật khẩu</h1>
+        <p>Xin chào user "${username}",</p>
         <p>Mật khẩu của bạn đã được đặt lại bởi admin.</p>
         <p>Mật khẩu mới của bạn là: <strong>${newPassword}</strong></p>
-        <p>Vui lòng đăng nhập với mật khẩu mới và thay đổi nó ngay lập tức để đảm bảo an toàn.</p>
-        <p>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng liên hệ với admin ngay lập tức.</p>
+       
       `,
     };
 

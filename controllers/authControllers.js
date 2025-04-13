@@ -156,7 +156,8 @@ const authControllers = {
       // Gửi email thông báo
       const emailSent = await sendPasswordResetEmail(
         user.email,
-        defaultPassword
+        defaultPassword,
+        user.username
       );
       if (!emailSent) {
         return res
