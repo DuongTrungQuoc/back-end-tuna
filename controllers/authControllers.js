@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { sendPasswordResetEmail } = require("../services/emailService");
 
 let refreshTokens = [];
 const authControllers = {
@@ -152,9 +153,22 @@ const authControllers = {
       user.password = hashedPassword;
       await user.save();
 
+      // Gửi email thông báo
+      const emailSent = await sendPasswordResetEmail(
+        user.email,
+        defaultPassword
+      );
+      if (!emailSent) {
+        return res
+          .status(500)
+          .json(
+            "Đặt lại mật khẩu thành công nhưng không thể gửi email thông báo!"
+          );
+      }
+
       res
         .status(200)
-        .json("Đặt lại mật khẩu thành công! Mật khẩu mới là: 123456");
+        .json("Đặt lại mật khẩu thành công và đã gửi email thông báo!");
     } catch (err) {
       console.error("Reset password error:", err);
       res.status(500).json("Có lỗi xảy ra khi đặt lại mật khẩu!");
