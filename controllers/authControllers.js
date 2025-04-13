@@ -7,6 +7,23 @@ const authControllers = {
   //REGISTER
   registerUser: async (req, res) => {
     try {
+      // Kiểm tra password và confirmPassword
+      if (req.body.password !== req.body.confirmPassword) {
+        return res.status(400).json("Mật khẩu xác nhận không khớp!");
+      }
+
+      // Kiểm tra username tồn tại
+      const existingUser = await User.findOne({ username: req.body.username });
+      if (existingUser) {
+        return res.status(400).json("Tên đăng nhập đã tồn tại!");
+      }
+
+      // Kiểm tra email tồn tại
+      const existingEmail = await User.findOne({ email: req.body.email });
+      if (existingEmail) {
+        return res.status(400).json("Email đã được sử dụng!");
+      }
+
       const salt = await bcrypt.genSalt(10);
       const hashed = await bcrypt.hash(req.body.password, salt);
 
