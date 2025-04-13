@@ -18,4 +18,12 @@ router.post(
   authController.userLogout
 );
 
+//RESET PASSWORD (Admin only)
+router.post(
+  "/reset-password",
+  middlewareController.verifyToken,
+  middlewareController.verifyAdmin,
+  authController.resetPassword
+);
+
 module.exports = router;

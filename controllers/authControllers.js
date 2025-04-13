@@ -133,6 +133,33 @@ const authControllers = {
     );
     res.status(200).json("Logged out successfully!");
   },
+
+  //RESET PASSWORD (ADMIN ONLY)
+  resetPassword: async (req, res) => {
+    try {
+      const { userId } = req.body;
+      const defaultPassword = "123456";
+
+      // Kiểm tra user tồn tại
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json("Không tìm thấy người dùng!");
+      }
+      // Hash password mặc định
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(defaultPassword, salt);
+      // Cập nhật password mới
+      user.password = hashedPassword;
+      await user.save();
+
+      res
+        .status(200)
+        .json("Đặt lại mật khẩu thành công! Mật khẩu mới là: 123456");
+    } catch (err) {
+      console.error("Reset password error:", err);
+      res.status(500).json("Có lỗi xảy ra khi đặt lại mật khẩu!");
+    }
+  },
 };
 
 //STORE TOKEN
