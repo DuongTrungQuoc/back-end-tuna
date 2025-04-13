@@ -38,7 +38,8 @@ const authControllers = {
       const user = await newUser.save();
       res.status(200).json(user);
     } catch (err) {
-      res.status(500).json(err);
+      console.error("Server error:", err);
+      res.status(500).json("Có lỗi xảy ra, vui lòng thử lại sau!");
     }
   },
 
