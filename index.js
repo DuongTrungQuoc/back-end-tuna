@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const predictRoutes = require("./routes/predict");
 dotenv.config();
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(express.json()); // to parse json data
 //ROUTES
 app.use("/v1/auth", authRoutes);
 app.use("/v1/user", userRoutes);
+app.use("/v1/predict", predictRoutes);
 
 app.listen(process.env.PORT || 8000, () => {
   console.log("Server is running");
