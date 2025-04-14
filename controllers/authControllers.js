@@ -20,10 +20,10 @@ const authControllers = {
       }
 
       // Kiểm tra email tồn tại
-      const existingEmail = await User.findOne({ email: req.body.email });
-      if (existingEmail) {
-        return res.status(400).json("Email đã được sử dụng!");
-      }
+      // const existingEmail = await User.findOne({ email: req.body.email });
+      // if (existingEmail) {
+      //   return res.status(400).json("Email đã được sử dụng!");
+      // }
 
       const salt = await bcrypt.genSalt(10);
       const hashed = await bcrypt.hash(req.body.password, salt);
