@@ -8,38 +8,71 @@ const authControllers = {
   //REGISTER
   registerUser: async (req, res) => {
     try {
+      const { username, email, password, confirmPassword } = req.body;
+
+      // Validate required fields
+      if (!username || !email || !password || !confirmPassword) {
+        return res.status(400).json("Vui lòng điền đầy đủ thông tin!");
+      }
+
+      // Validate username length
+      if (username.length < 6 || username.length > 20) {
+        return res.status(400).json("Tên đăng nhập phải từ 6-20 ký tự!");
+      }
+
+      // Validate password length
+      if (password.length < 6) {
+        return res.status(400).json("Mật khẩu phải có ít nhất 6 ký tự!");
+      }
+
       // Kiểm tra password và confirmPassword
-      if (req.body.password !== req.body.confirmPassword) {
+      if (password !== confirmPassword) {
         return res.status(400).json("Mật khẩu xác nhận không khớp!");
       }
 
       // Kiểm tra username tồn tại
-      const existingUser = await User.findOne({ username: req.body.username });
+      const existingUser = await User.findOne({ username });
       if (existingUser) {
         return res.status(400).json("Tên đăng nhập đã tồn tại!");
       }
 
       // Kiểm tra email tồn tại
-      // const existingEmail = await User.findOne({ email: req.body.email });
-      // if (existingEmail) {
-      //   return res.status(400).json("Email đã được sử dụng!");
-      // }
+      const existingEmail = await User.findOne({ email });
+      if (existingEmail) {
+        return res.status(400).json("Email đã được sử dụng!");
+      }
 
+      // Hash password
       const salt = await bcrypt.genSalt(10);
-      const hashed = await bcrypt.hash(req.body.password, salt);
+      const hashedPassword = await bcrypt.hash(password, salt);
 
-      //Create new user
-      const newUser = await new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: hashed,
+      // Create new user
+      const newUser = new User({
+        username,
+        email,
+        password: hashedPassword,
       });
 
       // Save to Database
-      const user = await newUser.save();
-      res.status(200).json(user);
+      await newUser.save();
+
+      // Return success without password
+      const { password: _, ...userWithoutPassword } = newUser._doc;
+      res.status(201).json({
+        message: "Đăng ký thành công!",
+        user: userWithoutPassword,
+      });
     } catch (err) {
-      console.error("Server error:", err);
+      console.error("Registration error:", err);
+
+      // Handle mongoose validation errors
+      if (err.name === "ValidationError") {
+        const messages = Object.values(err.errors).map(
+          (error) => error.message
+        );
+        return res.status(400).json(messages[0]);
+      }
+
       res.status(500).json("Có lỗi xảy ra, vui lòng thử lại sau!");
     }
   },

@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 10,
       maxlength: 50,
+      match: [
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        "Vui lòng nhập email hợp lệ",
+      ],
     },
     password: {
       type: String,

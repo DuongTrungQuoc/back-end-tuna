@@ -18,7 +18,13 @@ async function connectDatabase() {
   }
 }
 
-app.use(cors());
+// CORS configuration
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://front-end-tuna.onrender.com"],
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 app.use(express.json()); // to parse json data
 
@@ -28,7 +34,7 @@ app.use("/v1/user", userRoutes);
 app.use("/v1/predict", predictRoutes);
 
 app.listen(process.env.PORT || 8000, () => {
-  console.log("Server is running");
+  console.log("Server is running on port", process.env.PORT || 8000);
 });
 
 connectDatabase();
