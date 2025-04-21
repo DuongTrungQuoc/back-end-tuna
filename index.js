@@ -21,7 +21,7 @@ async function connectDatabase() {
 // CORS configuration
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://front-end-tuna.onrender.com"],
+    origin: ["http://localhost:5173", "https://front-end-tuna.vercel.app"],
     credentials: true,
   })
 );
