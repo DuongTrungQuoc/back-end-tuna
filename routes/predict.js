@@ -19,7 +19,7 @@ const upload = multer({ storage: storage });
 router.post("/", predict);
 
 // POST /v1/predict/image
-router.post("/image", upload.single("image"), async (req, res) => {
+router.post("/image", upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: "No image file provided" });
