@@ -25,17 +25,27 @@ router.post("/image", upload.single("image"), async (req, res) => {
       return res.status(400).json({ message: "No image file provided" });
     }
 
-    // Đây là phần demo, kết quả được tạo ngẫu nhiên
+    // Thay thế phần demo kết quả bằng cấu trúc dữ liệu mong muốn
     const results = {
-      MetMb: (Math.random() * 2).toFixed(2),
-      TBARS: (Math.random() * 3).toFixed(2),
-      Peroxide: (Math.random() * 4).toFixed(2),
+      HPO: 0.0, // Placeholder value
+      Lab: {
+        "L*": 0.0, // Placeholder value
+        "a*": 0.0, // Placeholder value
+        "b*": 0.0, // Placeholder value
+      },
+      MetMb: 0.0, // Placeholder value
+      RGB: {
+        B: 0.0, // Placeholder value
+        G: 0.0, // Placeholder value
+        R: 0.0, // Placeholder value
+      },
+      TBARS: 0.0, // Placeholder value
     };
 
     res.json({
       success: true,
       data: results,
-      imagePath: req.file.path,
+      // imagePath: req.file.path, // Remove imagePath
     });
   } catch (error) {
     console.error("Error processing image:", error);
