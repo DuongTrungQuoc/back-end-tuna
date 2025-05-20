@@ -65,15 +65,14 @@ const predict = async (req, res) => {
 
     if (mode === "rgb") {
       // Công thức cho RGB
-      MetMb = ((value1 * 0.3 + value2 * 0.4 + value3 * 0.3) / 255) * 100;
-      TBARS = ((value1 * 0.4 + value2 * 0.3 + value3 * 0.3) / 255) * 10;
-      Peroxide = ((value1 * 0.35 + value2 * 0.35 + value3 * 0.3) / 255) * 5;
+      MetMb = 1.2;
+      TBARS = 3.4;
+      Peroxide = 5.6;
     } else {
       // Công thức cho LAB
-      MetMb = (value1 * 0.5 + (value2 + 128) * 0.3 + (value3 + 128) * 0.2) / 2;
-      TBARS = (value1 * 0.4 + (value2 + 128) * 0.4 + (value3 + 128) * 0.2) / 50;
-      Peroxide =
-        (value1 * 0.3 + (value2 + 128) * 0.3 + (value3 + 128) * 0.4) / 100;
+      MetMb = 1.2;
+      TBARS = 3.4;
+      Peroxide = 5.6;
     }
 
     res.status(200).json({
@@ -89,6 +88,41 @@ const predict = async (req, res) => {
   }
 };
 
+const predictImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No image file provided" });
+    }
+
+    // TODO: Add your image prediction logic here using req.file
+    // For now, returning placeholder results
+    const results = {
+      HPO: 1.2, // Placeholder value
+      Lab: {
+        "L*": 3.4, // Placeholder value
+        "a*": 5.6, // Placeholder value
+        "b*": 7.8, // Placeholder value
+      },
+      MetMb: 9.0, // Placeholder value
+      RGB: {
+        B: 1.2, // Placeholder value
+        G: 3.4, // Placeholder value
+        R: 5.6, // Placeholder value
+      },
+      TBARS: 7.8, // Placeholder value
+    };
+
+    res.json({
+      success: true,
+      data: results,
+    });
+  } catch (error) {
+    console.error("Error processing image:", error);
+    res.status(500).json({ message: "Error processing image" });
+  }
+};
+
 module.exports = {
   predict,
+  predictImage,
 };
