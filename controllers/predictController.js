@@ -20,19 +20,18 @@ const predict = async (req, res) => {
     // Validate RGB values (0-255)
     if (mode === "rgb") {
       if (
-        !Number.isInteger(value1) ||
+        typeof value1 !== "number" ||
         value1 < 0 ||
         value1 > 255 ||
-        !Number.isInteger(value2) ||
+        typeof value2 !== "number" ||
         value2 < 0 ||
         value2 > 255 ||
-        !Number.isInteger(value3) ||
+        typeof value3 !== "number" ||
         value3 < 0 ||
         value3 > 255
       ) {
         return res.status(400).json({
-          error:
-            "Invalid RGB values: each value must be an integer between 0 and 255",
+          error: "Invalid RGB values: each value must be between 0 and 255",
         });
       }
     }
