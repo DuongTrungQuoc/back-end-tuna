@@ -113,25 +113,12 @@ const predictImage = async (req, res) => {
 
     // TODO: Add your image prediction logic here using req.file
     // For now, returning placeholder results
-    const results = {
-      HPO: 0.0, // Placeholder value
-      Lab: {
-        "L*": 0.0, // Placeholder value
-        "a*": 0.0, // Placeholder value
-        "b*": 0.0, // Placeholder value
-      },
-      MetMb: 0.0, // Placeholder value
-      RGB: {
-        B: 0.0, // Placeholder value
-        G: 0.0, // Placeholder value
-        R: 0.0, // Placeholder value
-      },
-      TBARS: 0.0, // Placeholder value
-    };
-
     res.json({
-      success: true,
-      data: results,
+      HPO: 0.0, // Placeholder value
+      LAB: [0.0, 0.0, 0.0], // L*, a*, b*
+      MetMb: 0.0, // Placeholder value
+      RGB: [0.0, 0.0, 0.0], // R, G, B
+      TBARS: 0.0, // Placeholder value
     });
   } catch (error) {
     console.error("Error processing image:", error);
