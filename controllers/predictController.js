@@ -64,21 +64,39 @@ const predict = async (req, res) => {
 
     if (mode === "rgb") {
       // Công thức cho RGB
-      MetMb = 1.2;
-      TBARS = 3.4;
-      Peroxide = 5.6;
+      MetMb = 0.0;
+      TBARS = 0.0;
+      Peroxide = 0.0;
     } else {
       // Công thức cho LAB
-      MetMb = 1.2;
-      TBARS = 3.4;
-      Peroxide = 5.6;
+      MetMb = 0.0;
+      TBARS = 0.0;
+      Peroxide = 0.0;
     }
 
-    res.status(200).json({
-      MetMb,
-      TBARS,
-      Peroxide,
-    });
+    if (mode === "rgb") {
+      res.status(200).json({
+        MetMb,
+        TBARS,
+        Peroxide,
+        GiaTriChuyenDoi: {
+          "L*": 0.0,
+          "a*": 0.0,
+          "b*": 0.0,
+        },
+      });
+    } else {
+      res.status(200).json({
+        MetMb,
+        TBARS,
+        Peroxide,
+        GiaTriChuyenDoi: {
+          R: 0.0,
+          G: 0.0,
+          B: 0.0,
+        },
+      });
+    }
   } catch (error) {
     console.error("Error in prediction:", error);
     res.status(500).json({
@@ -96,19 +114,19 @@ const predictImage = async (req, res) => {
     // TODO: Add your image prediction logic here using req.file
     // For now, returning placeholder results
     const results = {
-      HPO: 1.2, // Placeholder value
+      HPO: 0.0, // Placeholder value
       Lab: {
-        "L*": 3.4, // Placeholder value
-        "a*": 5.6, // Placeholder value
-        "b*": 7.8, // Placeholder value
+        "L*": 0.0, // Placeholder value
+        "a*": 0.0, // Placeholder value
+        "b*": 0.0, // Placeholder value
       },
-      MetMb: 9.0, // Placeholder value
+      MetMb: 0.0, // Placeholder value
       RGB: {
-        B: 1.2, // Placeholder value
-        G: 3.4, // Placeholder value
-        R: 5.6, // Placeholder value
+        B: 0.0, // Placeholder value
+        G: 0.0, // Placeholder value
+        R: 0.0, // Placeholder value
       },
-      TBARS: 7.8, // Placeholder value
+      TBARS: 0.0, // Placeholder value
     };
 
     res.json({
